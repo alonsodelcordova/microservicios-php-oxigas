@@ -1,10 +1,9 @@
 <?php
-include 'db/conexion.php';
-
+    include '../db/clientes_db.php';
 if(isset($_GET['id'])){
-    $cliente = Conexion::consultarCliente($_GET['id']);
+    $cliente = ClientesDB::consultarCliente($_GET['id']);
     if($cliente){
-        Conexion::eliminarCliente($_GET['id']);
+        ClientesDB::eliminarCliente($_GET['id']);
         echo "<script>alert('Cliente eliminado');</script>";
     }else{
         echo "<script>alert('Cliente no encontrado');</script>";

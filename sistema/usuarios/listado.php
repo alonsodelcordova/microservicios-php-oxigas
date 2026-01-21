@@ -1,6 +1,5 @@
 <?php
-include "db/conexion.php";
-
+    include '../db/usuarios_db.php';
 session_start();
 
 $email_sesion = null;
@@ -18,8 +17,8 @@ $pagina_actual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
 if ($pagina_actual < 1) {
     $pagina_actual = 1;
 }
-$resultado = Conexion::consultarUsuarios($pagina_actual, $registros_por_pagina);
-$total_paginas = Conexion::consultarTotalPaginas($registros_por_pagina);
+$resultado = UsuariosDB::consultarUsuarios($pagina_actual, $registros_por_pagina);
+$total_paginas = UsuariosDB::consultarTotalPaginas($registros_por_pagina);
 
 
 
@@ -32,7 +31,7 @@ $total_paginas = Conexion::consultarTotalPaginas($registros_por_pagina);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Usuarios</title>
-    <link rel="stylesheet" href="/usuarios/static/css/login.css">
+    <link rel="stylesheet" href="/static/css/login.css">
 </head>
 <body>
     

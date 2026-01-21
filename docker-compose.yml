@@ -4,7 +4,7 @@ services:
   mysql:
     image: mysql:8.0
     ports:
-      - "3306:3306"
+      - "3307:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=123456
       - MYSQL_DATABASE=agrosechura
@@ -14,12 +14,12 @@ services:
     networks:
       - docker_mysql_php
   
-  clientes:
-    build: ./clientes
+  sistema:
+    build: ./sistema
     ports:
-      - "8081:8081"
+      - "8080:8080"
     volumes:
-      - ./clientes:/var/www/html
+      - ./sistema:/var/www/html
     networks:
       - docker_mysql_php
     depends_on:
@@ -30,135 +30,6 @@ services:
       - DB_PASSWORD=123456
       - DB_NAME=agrosechura
 
-  compras:
-    build: ./compras
-    ports:
-      - "8082:8082"
-    volumes:
-      - ./compras:/var/www/html
-    networks:
-      - docker_mysql_php
-    depends_on:
-      - mysql
-    environment:
-      - DB_HOST=mysql
-      - DB_USER=root
-      - DB_PASSWORD=123456
-      - DB_NAME=agrosechura
-
-  inventario:
-    build: ./inventario
-    ports:
-      - "8083:8083"
-    volumes:
-      - ./inventario:/var/www/html
-    networks:
-      - docker_mysql_php
-    depends_on:
-      - mysql
-    environment:
-      - DB_HOST=mysql
-      - DB_USER=root
-      - DB_PASSWORD=123456
-      - DB_NAME=agrosechura
-
-  productos:
-    build: ./productos
-    ports:
-      - "8084:8084"
-    volumes:
-      - ./productos:/var/www/html
-    networks:
-      - docker_mysql_php
-    depends_on:
-      - mysql
-    environment:
-      - DB_HOST=mysql
-      - DB_USER=root
-      - DB_PASSWORD=123456
-      - DB_NAME=agrosechura
-
-  proveedores:
-    build: ./proveedores
-    ports:
-      - "8085:8085"
-    volumes:
-      - ./proveedores:/var/www/html
-    networks:
-      - docker_mysql_php
-    depends_on:
-      - mysql
-    environment:
-      - DB_HOST=mysql
-      - DB_USER=root
-      - DB_PASSWORD=123456
-      - DB_NAME=agrosechura
-
-  reportes:
-    build: ./reportes
-    ports:
-      - "8086:8086"
-    volumes:
-      - ./reportes:/var/www/html
-    networks:
-      - docker_mysql_php
-    depends_on:
-      - mysql
-    environment:
-      - DB_HOST=mysql
-      - DB_USER=root
-      - DB_PASSWORD=123456
-      - DB_NAME=agrosechura
-
-  usuarios:
-    build: ./usuarios
-    ports:
-      - "8087:8087"
-    volumes:
-      - ./usuarios:/var/www/html
-    networks:
-      - docker_mysql_php
-    depends_on:
-      - mysql
-    environment:
-      - DB_HOST=mysql
-      - DB_USER=root
-      - DB_PASSWORD=123456
-      - DB_NAME=agrosechura
-
-  ventas:
-    build: ./ventas
-    ports:
-      - "8088:8088"
-    volumes:
-      - ./ventas:/var/www/html
-    networks:
-      - docker_mysql_php
-    depends_on:
-      - mysql
-    environment:
-      - DB_HOST=mysql
-      - DB_USER=root
-      - DB_PASSWORD=123456
-      - DB_NAME=agrosechura
-
-  nginx:
-    image: nginx:1.19
-    ports:
-      - "81:80"
-    volumes:
-      - ./api-gateway/nginx.conf:/etc/nginx/nginx.conf
-    depends_on:
-      - clientes
-      - compras
-      - inventario
-      - productos
-      - proveedores
-      - reportes
-      - usuarios
-      - ventas
-    networks:
-      - docker_mysql_php
 
 volumes:
   mysql-data:

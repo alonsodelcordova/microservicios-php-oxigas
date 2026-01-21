@@ -1,6 +1,5 @@
 <?php
-include "db/conexion.php";
-
+    include '../db/usuarios_db.php';
 session_start();
 
 if(isset($_SESSION['email'])){
@@ -14,7 +13,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $resultado = Conexion::consultarUsuario($username);
+    $resultado = UsuariosDB::consultarUsuario($username);
     if($resultado!=null){
         if($password == $resultado['password']){
             $_SESSION['email'] = $username;
@@ -45,7 +44,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="/usuarios/static/css/login.css">
+    <link rel="stylesheet" href="/static/css/login.css">
 </head>
 <body>
     <div class="content-login">

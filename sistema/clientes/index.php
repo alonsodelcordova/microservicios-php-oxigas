@@ -1,6 +1,6 @@
 <?php
-include 'db/conexion.php';
-session_start();
+    include '../db/clientes_db.php';
+    session_start();
 
     // Número de registros por página
     $registros_por_pagina = 20;
@@ -10,9 +10,9 @@ session_start();
     if ($pagina_actual < 1) {
         $pagina_actual = 1;
     }
-    $resultado = Conexion::consultarClientes($pagina_actual, $registros_por_pagina);
+    $resultado = ClientesDB::consultarClientes($pagina_actual, $registros_por_pagina);
     // Calcular el número total de páginas
-    $total_paginas = Conexion::consultarTotalPaginas($registros_por_pagina);
+    $total_paginas = ClientesDB::consultarTotalPaginas($registros_por_pagina);
 
 ?>
 
@@ -22,7 +22,7 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clientes</title>
-    <link rel="stylesheet" href="/clientes/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/main.css">
 </head>
 
 <body>
@@ -30,7 +30,7 @@ session_start();
 
 
 <h1>Listado de Clientes</h1>
-<a href="/clientes/nuevo.php" class="button">Crear Cliente</a>
+<a href="/nuevo.php" class="button">Crear Cliente</a>
 
 <table>
     <tr>
@@ -54,7 +54,7 @@ session_start();
         echo "<td>" . $row['email'] . "</td>";
         echo "<td>" . $row['telefono'] . "</td>";
         echo "<td>" . $row['fecha_registro'] . "</td>";
-        echo "<td><a href='/clientes/eliminar.php?id=" . $row['id'] . "' class='button-error'>Eliminar</a></td>";
+        echo "<td><a href='/eliminar.php?id=" . $row['id'] . "' class='button-error'>Eliminar</a></td>";
         echo "</tr>";
     }
 ?>

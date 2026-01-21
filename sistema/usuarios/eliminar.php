@@ -1,12 +1,11 @@
 <?php
-include 'db/conexion.php';
-
+    include '../db/usuarios_db.php';
 if(isset($_GET['id']))
 {
-    $cliente = Conexion::consultarUsuarioByID($_GET['id']);
+    $cliente = UsuariosDB::consultarUsuarioByID($_GET['id']);
     if($cliente){
-        Conexion::eliminarUsuario($_GET['id']);
-        echo "<script>alert('Usuario eliminado');</script>";
+        UsuariosDB::eliminarUsuario($_GET['id']);
+        echo "<script>alert('Usuario eliminado')</script>";
     }else{
         echo "<script>alert('Usuario no encontrado');</script>";
     }

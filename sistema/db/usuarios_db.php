@@ -1,19 +1,7 @@
 <?php
-class Conexion{
-    private static $instancia;
+require_once 'conexion.php';
 
-    public static function conectar(){
-        $HOST = $_ENV['DB_HOST'];
-        $USER = $_ENV['DB_USER'];
-        $PASS = $_ENV['DB_PASSWORD'];
-        $DB = $_ENV['DB_NAME'];
-
-        if(!isset(self::$instancia)){
-            self::$instancia = new PDO("mysql:host=$HOST;dbname=$DB", $USER, $PASS);
-            self::$instancia->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        }
-        return self::$instancia;
-    }
+class UsuariosDB{
 
     public static function consultarUsuarios($pagina, $registros_por_pagina){
         $offset = ($pagina - 1) * $registros_por_pagina;
@@ -71,7 +59,5 @@ class Conexion{
         $resultado->bindValue(':id', $id, PDO::PARAM_INT);
         return $resultado->execute();
     }
-
-
 
 }

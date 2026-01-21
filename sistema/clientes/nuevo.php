@@ -5,15 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Cliente</title>
-    <link rel="stylesheet" href="/clientes/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/main.css">
 </head>
 <body>
 
 <?php
 $mensaje = null;
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    include 'db/conexion.php';
-
+    include '../db/clientes_db.php';
     // Obtener los datos del formulario
     $nombre = $_POST['nombre'];
     $apellido = $_POST['apellido'];
@@ -22,7 +21,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     
     
     // Llamar a la función para crear el cliente
-    if(Conexion::crearCliente($nombre, $apellido, $email, $telefono)){
+    if(ClientesDB::crearCliente($nombre, $apellido, $email, $telefono)){
         echo "<script>
         alert('Cliente creado correctamente');
         window.location.href = '/clientes';
