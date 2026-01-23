@@ -1,12 +1,12 @@
 <?php
-require_once 'conexion.php';
 
-class ClientesDB{
+
+class ClienteModel extends Model {
 
 
     public static function consultarClientes($pagina, $registros_por_pagina){
         $offset = ($pagina - 1) * $registros_por_pagina;
-        $conexion = Conexion::conectar();
+        $conexion = Database::connect();
         $sql = "SELECT id, nombre, apellido, email, telefono, fecha_registro FROM clientes LIMIT :limit OFFSET :offset";
         $resultado = $conexion->prepare($sql);
         $resultado->bindValue(':limit', $registros_por_pagina, PDO::PARAM_INT);
@@ -16,7 +16,7 @@ class ClientesDB{
     }
 
     public static function consultarTotalPaginas($registros_por_pagina){
-        $conexion = Conexion::conectar();
+        $conexion = Database::connect();
         $sql = "SELECT COUNT(*) AS total FROM clientes";
         $resultado = $conexion->query($sql);
         $total_registros = $resultado->fetch(PDO::FETCH_ASSOC)['total'];
@@ -25,7 +25,7 @@ class ClientesDB{
 
 
     public static function crearCliente($nombre, $apellido, $email, $telefono){
-        $conexion = Conexion::conectar();
+        $conexion = Database::connect();
         $sql = "INSERT INTO clientes (nombre, apellido, email, telefono, fecha_registro) VALUES (:nombre, :apellido, :email, :telefono, :fecha_registro)";
         $resultado = $conexion->prepare($sql);
         $resultado->bindValue(':nombre', $nombre, PDO::PARAM_STR);
@@ -37,7 +37,7 @@ class ClientesDB{
     }
 
     public static function consultarCliente($id){
-        $conexion = Conexion::conectar();
+        $conexion = Database::connect();
         $sql = "SELECT id, nombre, apellido, email, telefono, fecha_registro FROM clientes WHERE id = :id";
         $resultado = $conexion->prepare($sql);
         $resultado->bindValue(':id', $id, PDO::PARAM_INT);
@@ -46,11 +46,10 @@ class ClientesDB{
     }
 
     public static function eliminarCliente($id){
-        $conexion = Conexion::conectar();
+        $conexion = Database::connect();
         $sql = "DELETE FROM clientes WHERE id = :id";
         $resultado = $conexion->prepare($sql);
         $resultado->bindValue(':id', $id, PDO::PARAM_INT);
         return $resultado->execute();
     }
-
 }
