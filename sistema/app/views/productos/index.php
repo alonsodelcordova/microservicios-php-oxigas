@@ -11,7 +11,7 @@
         <?php foreach($resultado as $producto): ?>
             <div class="col-md-4">
                 <div class="card">
-                    <img src="<?= $producto['url_imagen'] ?>" alt="producto" class="card-img-top">
+                    <img src="<?= $producto['url_imagen'] ?>" alt="producto" class="card-img-top" width="100" height="180">
                     <div class="card-body">
                         <h5 class="card-title text-uppercase"><?= $producto['nombre'] ?></h5>
                         <span class="card-text">Categoria: <?= $producto['categoria'] ?></span> <br>
