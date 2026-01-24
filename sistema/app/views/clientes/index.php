@@ -1,39 +1,32 @@
 
-<div class="container">
+<div class="container my-2">
     <h1>Listado de Clientes</h1>
     <a href="/clientes/nuevo" class="btn btn-primary">
         <i class="fa fa-plus"></i> Agregar
     </a>
 
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Email</th>
-            <th>Teléfono</th>
-            <th>Fecha</th>
-            <th></th>
-        </tr>
-    <?php
-
-
-        foreach($resultado as $row){
-            
-            echo "<tr>";
-            echo "<td>" . $row['id'] . "</td>";
-            echo "<td>" . $row['nombre'] . "</td>";
-            echo "<td>" . $row['apellido'] . "</td>";
-            echo "<td>" . $row['email'] . "</td>";
-            echo "<td>" . $row['telefono'] . "</td>";
-            echo "<td> " . date('d/m/Y', strtotime($row['fecha_registro'])) . "</td>";
-            echo "<td><a href='/clientes/eliminar?id=" . $row['id'] . "' class='btn btn-danger'>
-                <i class='fa fa-trash'></i>
-            </a></td>";
-            echo "</tr>";
-        }
-    ?>
-    </table>
+    <div class="row mt-3">
+        <?php foreach($resultado as $cliente): ?>
+            <div class="col-md-6 col-lg-4">
+                <div class="card m-2">
+                    <div class="card-body">
+                        <h5 class="card-title text-uppercase"><?= $cliente['nombre'].' '.$cliente['apellido'] ?></h5>
+                        <span class="card-text">Email: <?= $cliente['email'] ?></span> <br>
+                        <span class="card-text">Teléfono: <?= $cliente['telefono'] ?></span> <br>
+                        <span class="card-text">Fecha: <?=  date('d/m/Y', strtotime($cliente['fecha_registro'])) ?></span> <br>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between">
+                        <a href="/clientes/editar?id=<?= $cliente['id'] ?>" class="btn btn-warning m-1">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                        <a href="/clientes/eliminar?id=<?= $cliente['id'] ?>" class="btn btn-danger m-1">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
 
     <div class='pagination'>
         <?php

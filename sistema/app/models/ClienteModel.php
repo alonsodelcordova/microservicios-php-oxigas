@@ -26,13 +26,12 @@ class ClienteModel extends Model {
 
     public static function crearCliente($nombre, $apellido, $email, $telefono){
         $conexion = Database::connect();
-        $sql = "INSERT INTO clientes (nombre, apellido, email, telefono, fecha_registro) VALUES (:nombre, :apellido, :email, :telefono, :fecha_registro)";
+        $sql = "INSERT INTO clientes (nombre, apellido, email, telefono) VALUES (:nombre, :apellido, :email, :telefono)";
         $resultado = $conexion->prepare($sql);
         $resultado->bindValue(':nombre', $nombre, PDO::PARAM_STR);
         $resultado->bindValue(':apellido', $apellido, PDO::PARAM_STR);
         $resultado->bindValue(':email', $email, PDO::PARAM_STR);
         $resultado->bindValue(':telefono', $telefono, PDO::PARAM_STR);
-        $resultado->bindValue(':fecha_registro', date('Y-m-d H:i:s'), PDO::PARAM_STR);
         return $resultado->execute();
     }
 

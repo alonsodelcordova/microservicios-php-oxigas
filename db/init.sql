@@ -6,7 +6,6 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 --
 -- Base de datos: `agrosechura`
 --
-
 -- --------------------------------------------------------
 
 use agrosechura;
@@ -121,3 +120,51 @@ insert into clientes (nombre, apellido, email, telefono, fecha_registro) values 
 
 insert into usuarios (nombre, password, email) values ('Juan', '123456', 'juan@email.com');
 insert into usuarios (nombre, password, email) values ('Maria', '123456', 'maria@email.com');
+
+
+
+-- crear proceso almacenado para insertar un detalle de pedido
+CREATE PROCEDURE insertarDetallePedido(
+    IN in_pedido_id INT, 
+    IN in_producto_id INT, 
+    IN in_cantidad INT, 
+    IN in_precio DECIMAL(10,2)  ,
+    OUT out_id INT
+) 
+BEGIN
+    -- calcular subtotal
+    DECLARE v_total DECIMAL(10,2);
+    DECLARE v_existePedido INT;
+    SET v_total = in_cantidad * in_precio;
+
+    if in_cantidad <= 0 then
+        -- Raise a custom error
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Cantidad no valido',
+                MYSQL_ERRNO = 1001;
+    end if;
+
+    if in_precio <= 0 then
+        -- Raise a custom error
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Precio no valido',
+                MYSQL_ERRNO = 1001;
+    end if;
+
+    -- comprobar existencia del pedido
+    SELECT v_existePedido = COUNT(*) FROM pedidos WHERE id = in_pedido_id;
+    IF v_existePedido = 0 THEN
+        -- Raise a custom error
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Pedido no valido',
+                MYSQL_ERRNO = 1001;
+    END IF;
+
+    -- insertar pedido
+    INSERT INTO pedidos_productos (pedido_id, producto_id, cantidad, precio, subtotal) 
+    VALUES (in_pedido_id, in_producto_id, in_cantidad, in_precio, v_total);
+    
+    UPDATE pedidos SET total = total + v_total WHERE id = in_pedido_id;
+
+    SELECT LAST_INSERT_ID() INTO out_id;
+END;

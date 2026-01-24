@@ -1,27 +1,11 @@
 
-<head>
-    <link rel="stylesheet" href="/static/css/login.css">
-</head>
-
-    <div class="content-login">
-        <div class="login-container">
-            <div class="login-box">
-                <h2>Iniciar Sesión</h2>
-                <form action="/home/login" method="POST">
-                    <div class="input-group">
-                        <label for="username">Usuario</label>
-                        <input type="text" id="username" name="username" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="password">Contraseña</label>
-                        <input type="password" id="password" name="password" required>
-                    </div>
-                    <button type="submit">Ingresar</button>
-                </form>
-                <div class="links">
-                    <a href="/usuarios/forgot-password.php">¿Olvidaste tu contraseña?</a>
-                    <a href="/usuarios/register.php">Regístrate</a>
-                </div>
-            </div>
+<div class="container my-2">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Bienvenido</h5>
+            <p class="card-text">Bienvenido a la aplicación MVC PHP</p>
         </div>
     </div>
+
+</div>
+

@@ -13,7 +13,17 @@ class Controller
         if(isset($_SESSION['email'])){
             $this->user = $_SESSION['email'];
         }
+    }
 
+    public function validarSesion(){
+        if(isset($_SESSION['email'])){
+            return true;
+        }else{
+            echo "<script>
+                    window.location.href = '/';
+                </script>";
+            exit;
+        }
     }
 
     protected function view($view, $data = [])

@@ -6,9 +6,7 @@
     </a>
     <h2>Crear Cliente</h2>
 
-    <?php if($mensaje!=null): ?>
-        <div class="error"><?php echo $mensaje; ?></div>
-    <?php endif; ?>
+    
 
     <form action="/clientes/registrar" method="POST">
         <div class="form-group my-2">

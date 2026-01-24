@@ -7,11 +7,12 @@ class ClientesController extends Controller {
         parent::__construct([
             'ClienteModel'
         ]);
+        $this->validarSesion();
     }
 
     public function index() {
         // Número de registros por página
-        $registros_por_pagina = 20;
+        $registros_por_pagina = 10;
 
         // Obtener el número de página actual desde la URL
         $pagina_actual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
