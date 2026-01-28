@@ -1,28 +1,120 @@
 body {
-    background-color: #f4f4f4;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #f8f9fa;
 }
+
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+}
+
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    min-height: 100vh;
+    background-color: #343a40;
+    color: #fff;
+    position: fixed;
+    transition: all 0.3s;
+}
+
+#content {
+    width: 100%;
+    margin-left: 250px;
+    min-height: 100vh;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background: #212529;
+}
+
+.list-group-item {
+    background: transparent;
+    color: #adb5bd;
+    border: none;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+}
+
+.list-group-item:hover,
+.list-group-item.active {
+    background: #495057;
+    color: #fff;
+}
+
+.list-group-item i,
+.list-group-item span {
+    margin-right: 10px;
+}
+
+.material-symbols-outlined {
+    font-size: 20px;
+}
+
+.navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .08);
+}
+
+.kpi-card {
+    border: none;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.avatar-img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.chart-placeholder {
+    height: 250px;
+    background: linear-gradient(180deg, rgba(0, 123, 255, 0.05) 0%, rgba(0, 123, 255, 0) 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.activity-item {
+    border-left: 2px solid #007bff;
+    padding-left: 15px;
+    position: relative;
+}
+
 h1 {
     color: #333;
 }
+
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
 }
-table, th, td {
+
+table,
+th,
+td {
     border: 1px solid #ddd;
 }
-th, td {
+
+th,
+td {
     padding: 12px;
     text-align: left;
 }
+
 th {
     background-color: #4CAF50;
     color: white;
 }
+
 tr:nth-child(even) {
     background-color: #f2f2f2;
 }
+
 tr:hover {
     background-color: #ddd;
 }
@@ -30,29 +122,72 @@ tr:hover {
 .pagination {
     margin-top: 20px;
 }
+
 .pagination a {
     color: #4CAF50;
     padding: 8px 16px;
     text-decoration: none;
     border: 1px solid #ddd;
-    border-radius: 5px!important;
+    border-radius: 5px !important;
 }
+
 .pagination a.active {
     background-color: #4CAF50;
     color: white;
     border: 1px solid #4CAF50;
 }
+
 .pagination a:hover:not(.active) {
     background-color: #ddd;
 }
 
 .card {
-    border: none!important;
-    border-radius: .9rem!important;
+    border: none !important;
+    border-radius: .9rem !important;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     transition: 0.3s;
+
     .card-img-top {
-        border-top-left-radius: .9rem!important;
-        border-top-right-radius: .9rem!important;
+        border-top-left-radius: .9rem !important;
+        border-top-right-radius: .9rem !important;
     }
+}
+
+.product-img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.form-section-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #495057;
+}
+.image-preview-container {
+    border: 2px dashed #dee2e6;
+    border-radius: 0.5rem;
+    padding: 2rem;
+    text-align: center;
+    background-color: #fafafa;
+    margin-bottom: 1rem;
+}
+
+.input-group-text {
+    background-color: #f8f9fa;
+}
+.breadcrumb {
+    background: transparent;
+    padding-left: 0;
+}
+.preview-thumbnail {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
 }

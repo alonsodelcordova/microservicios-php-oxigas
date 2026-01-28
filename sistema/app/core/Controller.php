@@ -32,6 +32,10 @@ class Controller
         ob_start();
         require "../app/views/$view.php";
         $content = ob_get_clean();
-        require __DIR__ . '/../views/layouts/main.php';
+        if (!isset($_SESSION['email'])) {
+            require __DIR__ . '/../views/layouts/main.php';
+        } else {
+            require __DIR__ . '/../views/layouts/system_layout.php';
+        }
     }
 }

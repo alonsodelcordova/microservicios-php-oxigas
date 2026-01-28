@@ -1,56 +1,15 @@
 
 <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
     <div>
-        <h1 class="h2 font-weight-bold mb-1">Catálogo de Productos</h1>
-        <p class="text-muted mb-0">Gestiona el inventario, precios y niveles de existencias por categoría.</p>
+        <h1 class="h2 font-weight-bold mb-1">Pedidos</h1>
+        <p class="text-muted mb-0">Administrar pedidos y sus detalles.</p>
     </div>
-    <a class="btn btn-primary d-flex align-items-center px-4 py-2" href="/productos/nuevo">
+    <a class="btn btn-primary d-flex align-items-center px-4 py-2" href="/pedidos/nuevo">
         <i class="fa fa-plus mr-2"></i>
         Agregar
     </a>
 </div>
-<div class="row mb-4">
-    <div class="col-md-4">
-        <div class="card h-100 p-3">
-            <div class="d-flex justify-content-between align-items-start">
-                <div>
-                    <p class="text-muted small mb-1">Total Productos</p>
-                    <h3 class="font-weight-bold mb-0">
-                        <?= count($resultado) ?>
-                    </h3>
-                </div>
-                <i class="fa fa-money text-success"></i>
-            </div>
-            <p class="text-success small mt-2 mb-0 font-weight-bold">
-                <i class="fa fa-arrow-up"></i> +2% este mes
-            </p>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card h-100 p-3">
-            <div class="d-flex justify-content-between align-items-start">
-                <div>
-                    <p class="text-muted small mb-1">Stock Bajo</p>
-                    <h3 class="font-weight-bold mb-0">12</h3>
-                </div>
-                <i class="fa fa-exclamation-triangle text-warning"></i>
-            </div>
-            <p class="text-warning small mt-2 mb-0 font-weight-bold">Requiere atención</p>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card h-100 p-3">
-            <div class="d-flex justify-content-between align-items-start">
-                <div>
-                    <p class="text-muted small mb-1">Sin Existencias</p>
-                    <h3 class="font-weight-bold mb-0">5</h3>
-                </div>
-                <i class="fa fa-times text-danger"></i>
-            </div>
-            <p class="text-danger small mt-2 mb-0 font-weight-bold">Actualizar catálogo</p>
-        </div>
-    </div>
-</div>
+
 <div class="card mb-4 shadow-sm">
     <div class="card-body py-3">
         <div class="row align-items-center">
@@ -62,7 +21,7 @@
                         </span>
                     </div>
                     <input class="form-control border-left-0"
-                        placeholder="Buscar productos por nombre, SKU o categoría..." type="text" />
+                        placeholder="Buscar pedidos por referencia..." type="text" />
                 </div>
             </div>
             <div class="col-lg-6 text-lg-right">
@@ -87,38 +46,35 @@
         <table class="table table-hover mb-0">
             <thead>
                 <tr>
-                    <th class="pl-4">Producto</th>
-                    <th>SKU</th>
-                    <th>Categoría</th>
-                    <th>Precio</th>
-                    <th>Stock</th>
+                    <th>Referencia</th>
+                    <th>Cliente</th>
+                    <th>Total</th>
                     <th>Estado</th>
                     <th class="text-right pr-4">Acciones</th>
                 </tr>
             </thead>
             <tbody>
 
-                <?php foreach($resultado as $producto): ?>
+                <?php foreach($resultado as $pedido): ?>
                     <tr>
-                        <td class="pl-4">
+                        <td class="align-middle">
                             <div class="d-flex align-items-center">
-                                <img alt="producto" class="product-img mr-3"
-                                    src="<?= $producto['url_imagen'] ?>" width="100" height="180">
-                                <div>
-                                    <div class="font-weight-bold text-dark"><?= $producto['nombre'] ?></div>
+                                <div class="font-weight-bold text-dark">
+                                    <?= $pedido['referencia'] ?>
                                 </div>
                             </div>
                         </td>
-                        <td class="align-middle">COD- <?= $producto['id'] ?></td>
                         <td class="align-middle">
-                            <span class="badge badge-light border"><?= $producto['categoria'] ?></span>
+                            <div class="d-flex align-items-center">
+                                <div class="font-weight-bold text-dark">
+                                    <?= $pedido['nombre'].' '.$pedido['apellido'] ?>
+                                </div>
+                            </div>
                         </td>
-                        <td class="align-middle font-weight-bold"><?= $producto['precio'] ?></td>
-                        <td class="align-middle"> 0 Unidades</td>
+                        <td class="align-middle font-weight-bold">$0.00</td>
                         <td class="align-middle">
-                            <span class="badge badge-success">En Stock</span>
-                            <span class="badge badge-danger">Sin Stock</span>
-                            <span class="badge badge-warning">Stock Bajo</span>
+                            <span class="badge badge-success">En Proceso</span>
+                            <span class="badge badge-danger">Cancelado</span>
                         </td>
                         <td class="text-right pr-4 align-middle">
                             <button class="btn btn-sm btn-outline-primary mr-1">
