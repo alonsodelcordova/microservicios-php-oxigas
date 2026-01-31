@@ -30,6 +30,16 @@ services:
       - DB_NAME=agrosechura
     restart: always
 
+  sistema-vue:
+    build: ./system-vue-front
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./system-vue-front:/app
+      - /app/node_modules
+    networks:
+      - docker_mysql_php
+
 volumes:
   mysql-data:
 

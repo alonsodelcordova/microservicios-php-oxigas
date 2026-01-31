@@ -20,7 +20,7 @@
             <div class="card mb-4">
                 <div class="card-body p-4">
                     <div class="form-section-title">
-                        <span class="material-symbols-outlined text-primary">info</span>
+                        <i class="fa fa-info-circle text-primary"></i>
                         Información General
                     </div>
                     <div class="form-group">
@@ -118,16 +118,16 @@
                         </div>
                         <small class="form-text text-muted mt-2">PNG, JPG hasta 10MB</small>
                     </div>
-                    <div class="border rounded p-2 mt-3 d-flex align-items-center">
+                    <div class="border rounded p-2 mt-3 d-flex align-items-center hidden" id="imagenPreviewContainer" >
                         <div class="bg-light mr-3">
-                            <img alt="Preview" class="preview-thumbnail"
+                            <img alt="Preview" class="preview-thumbnail" id="imagenPreview"
                                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxVPOv--4LmwN3pftO9Da-wCHkzyJRHX-3sB3zu-Wp9L2dWLs_d0IP2wpb8HGHNx5axAQL9F0hoeANTCO89TxN6cClSRERaGl2KCjqqyrvdQkx_DJ_olip_G1O2CysqBAkevPddaCkRltc9DkPN4I2wYoHSJR4CNYFzDYH_ihW_FIGacbZjMrzNplRFwau1Gwwr9NKQRujtMMYrdzgZfGW2iovPDuznpyP5K4zHqWAH5a6Anv6ZKJeL0MaTmcUnVnU7_LIo7Ld18M5" />
                         </div>
                         <div class="flex-grow-1 overflow-hidden">
-                            <div class="text-truncate font-weight-bold small">preview_image_01.jpg</div>
-                            <div class="text-muted small">1.2 MB</div>
+                            <div class="text-truncate font-weight-bold small" id="nombreImagen">preview_image_01.jpg</div>
+                            <div class="text-muted small" id="sizeImage">1.2 MB</div>
                         </div>
-                        <button class="btn btn-sm text-danger" type="button">
+                        <button class="btn btn-sm text-danger" type="button" onclick="clearImage()">
                             <i class="fa fa-trash"></i>
                         </button>
                     </div>
@@ -141,3 +141,38 @@
         </button>
     </div>
 </form>
+
+<script>
+    var imagenElement = document.getElementById('imagen');
+    var imagenPreviewContainer = document.getElementById('imagenPreviewContainer');
+    imagenElement.onchange = function() {
+        var file = this.files[0];
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var imagen = document.getElementById('imagenPreview');
+            imagen.src = e.target.result;
+            var nombreImagen = document.getElementById('nombreImagen');
+            nombreImagen.innerHTML = file.name;
+            // al label del input agregar el nombre tambien
+            imagenElement.parentNode.querySelector('label').innerHTML = file.name;
+            var sizeImage = document.getElementById('sizeImage');
+            sizeImage.innerHTML = file.size + ' KB';
+
+            imagenPreviewContainer.classList.remove('hidden');
+
+        }
+        reader.readAsDataURL(file);
+    }
+
+    function clearImage() {
+        var imagen = document.getElementById('imagenPreview');
+        imagen.src = '';
+        var nombreImagen = document.getElementById('nombreImagen');
+        nombreImagen.innerHTML = '';
+        imagenPreviewContainer.classList.add('hidden');
+        imagenElement.value = '';
+        // al label del input borrar el nombre
+        imagenElement.parentNode.querySelector('label').innerHTML = 'Elegir archivo...';
+    }
+    
+</script>

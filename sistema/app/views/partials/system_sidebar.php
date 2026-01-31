@@ -11,7 +11,7 @@ $path = explode('/', $url)[1] ?? '';
         <h5 class="mb-0">ERP System</h5>
     </div>
     <div class="list-group list-group-flush mt-3">
-        <a class="list-group-item list-group-item-action <?php if($path == ''){ echo 'active'; } ?>" href="/home">
+        <a class="list-group-item list-group-item-action <?php if($path == '' ||  $path == '/' || $path == 'home'){ echo 'active'; } ?>" href="/home">
             <i class="fa fa-dashboard"></i> Dashboard
         </a>
         <a class="list-group-item list-group-item-action <?php if($path == 'productos'){ echo 'active'; } ?>" href="/productos">
@@ -23,9 +23,6 @@ $path = explode('/', $url)[1] ?? '';
         <a class="list-group-item list-group-item-action <?php if($path == 'ventas'){ echo 'active'; } ?>" href="/ventas">
             <i class="fa fa-shopping-cart"></i> Ventas
         </a>
-        <a class="list-group-item list-group-item-action <?php if($path == 'reportes'){ echo 'active'; } ?>" href="/reportes">
-            <i class="fa fa-bar-chart"></i> Reports
-        </a>
         <a class="list-group-item list-group-item-action <?php if($path == 'usuarios'){ echo 'active'; } ?>" href="/usuarios">
             <i class="fa fa-users"></i> Usuarios
         </a>
@@ -33,7 +30,7 @@ $path = explode('/', $url)[1] ?? '';
             <i class="fa fa-users"></i> clientes
         </a>
 
-        <a class="list-group-item list-group-item-action" href="/config">
+        <a class="list-group-item list-group-item-action <?php if($path == 'config'){ echo 'active'; } ?>" href="/config">
             <i class="fa fa-cog"></i> Settings
         </a>
     </div>
