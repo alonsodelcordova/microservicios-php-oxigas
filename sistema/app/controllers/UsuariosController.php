@@ -23,11 +23,11 @@ class UsuariosController extends Controller {
         $total_paginas = UsuariosModel::consultarTotalPaginas($registros_por_pagina);
 
 
-        $this -> view('usuarios/listado', [
-            'email_sesion' => $this->user,
+        echo json_encode([
             'resultado' => $resultado,
             'total_paginas' => $total_paginas,
-            'pagina_actual' => $pagina_actual
+            'pagina_actual' => $pagina_actual,
+            'status' => 'success'
         ]);
     }
 
@@ -36,22 +36,17 @@ class UsuariosController extends Controller {
             $cliente = UsuariosModel::consultarUsuarioByID($_GET['id']);
             if($cliente){
                 UsuariosModel::eliminarUsuario($_GET['id']);
-                echo "<script>
-                        alert('Usuario eliminado')
-                    </script>";
-            }else{
-                echo "<script>
-                        alert('Usuario no encontrado');
-                    </script>";
+                echo json_encode([
+                    'status' => 'success',
+                    'data' => 'Usuario eliminado correctamente'
+                ]);
+                exit;
             }
-        } else {
-            echo "<script>
-                    alert('ID de usuario no proporcionado');
-                </script>";
-        }
-        echo "<script>
-                window.location.href = '/usuarios/listado';
-            </script>";
+        } 
+        echo json_encode([
+            'status' => 'error',
+            'data' => 'Error al eliminar el usuario'
+        ]);
         exit;
     }
 

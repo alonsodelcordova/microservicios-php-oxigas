@@ -39,6 +39,9 @@ services:
       - /app/node_modules
     networks:
       - docker_mysql_php
+    depends_on:
+      - sistema
+    restart: always
 
 volumes:
   mysql-data:

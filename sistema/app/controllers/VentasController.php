@@ -22,14 +22,15 @@ class VentasController extends Controller
         if ($pagina_actual < 1) {
             $pagina_actual = 1;
         }
-        $productos = ProductoModel::consultarProductos($pagina_actual, $registros_por_pagina);
+        //$ventas = ProductoModel::consultarVentas($pagina_actual, $registros_por_pagina);
         // Calcular el número total de páginas
-        $total_paginas = ProductoModel::consultarTotalPaginas($registros_por_pagina);
+        //$total_paginas = ProductoModel::consultarTotalPaginas($registros_por_pagina);
 
-        $this -> view('ventas/index', [
-            'productos' => $productos,
-            'total_paginas' => $total_paginas,
-            'pagina_actual' => $pagina_actual
+        echo json_encode([
+            'resultado' => [],
+            'total_paginas' => 1,
+            'pagina_actual' => $pagina_actual,
+            'status' => 'success'
         ]);
     }
 }

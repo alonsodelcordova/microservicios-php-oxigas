@@ -4,86 +4,60 @@ class HomeController extends Controller
 {
     public function __construct() {
         parent::__construct([
-            'UsuariosModel'
+            'EmpresaModel'
         ]);
     }
 
-    public function index()
-    {
-        if($this->user){
-            $this->home();
-        }else{
-            $this->view('auth/login', [
-                'title' => 'Bienvenido MVC PHP'
+    public function infoEmpresa(){
+        $empresa = EmpresaModel::consultarEmpresa();
+        echo json_encode(
+            [
+                'nombre' => $empresa['nombre'],
+                'ident_fiscal' => $empresa['ident_fiscal'],
+                'direccion' => $empresa['direccion'],
+                'moneda' => $empresa['moneda_base'],
+                'zona_horaria' => $empresa['zona_horaria'],
+                'is_alert_inventar_bajo' => $empresa['is_alert_inventar_bajo'],
+                'is_modo_offline' => $empresa['is_modo_offline']
+            ]
+        );
+    }
+
+    public function actualizarEmpresa(){
+        if($_SERVER['REQUEST_METHOD'] == 'PUT'){
+            $input = $this->getDataJSON();
+            $nombre = $input['nombre'];
+            $ident_fiscal = $input['ident_fiscal'];
+            $direccion = $input['direccion'];
+            $moneda = $input['moneda'];
+            $zona_horaria = $input['zona_horaria'];
+            $is_alert_inventar_bajo = $input['is_alert_inventar_bajo'];
+            $is_modo_offline = $input['is_modo_offline'];
+            
+            $resultado = EmpresaModel::actualizarEmpresa($nombre, $ident_fiscal, $direccion, $moneda, $zona_horaria, $is_alert_inventar_bajo, $is_modo_offline);
+            echo json_encode([
+                'status' => 'success',
+                'data' => 'Empresa actualizada correctamente'
             ]);
         }
     }
 
-    public function home()
-    {
-        $this->view('home/index');
-    }
-
-    public function login()
-    {
-        if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            $username = $_POST['username'];
-            $password = $_POST['password'];
-
-            $resultado = UsuariosModel::consultarUsuario($username);
-            if($resultado!=null){
-                if($password == $resultado['password']){
-                    $_SESSION['email'] = $username;
-                    $_SESSION['id'] = $resultado['id'];
-                    echo "<script>
-                    alert('Inicio de sesión exitoso');
-                    window.location.href = '/home';
-                    </script>";
-                }else{
-                    echo "<script>
-                    alert('Contraseña incorrecta');
-                    window.location.href = '/home';
-                    </script>";
-                }
-            }else{
-                echo "<script>
-                alert('Usuario o contraseña incorrectos');
-                window.location.href = '/home';
-                </script>";
-            }
+     public function consultarConfiguraciones(){
+        // codigo de configuracion
+        if (!isset($_GET['codigos'])) {
+             echo json_encode([
+                'status' => 'error',
+                'data' => 'Codigo de configuracion no valido'
+            ]);
+            exit;
         }
-    }
-
-    public function logout()
-    {
-        session_destroy();
-        echo "<script>
-        alert('Logout exitoso');
-        window.location.href = '/home';
-        </script>";
-        exit;
-    }
-
-    public function register(){
-        if($_SERVER['REQUEST_METHOD'] == 'GET'){
-            $this->view('auth/register');
-        }
-        elseif($_SERVER['REQUEST_METHOD'] == 'POST'){
-            $nombre = $_POST['nombre'];
-            $password = $_POST['password'];
-            $email = $_POST['email'];
-            if(UsuariosModel::crearUsuario($nombre, $password, $email)){
-                echo "<script>
-                alert('Usuario creado correctamente');
-                window.location.href = '/';
-                </script>";
-            }else{
-                echo "<script>
-                alert('Error al crear el usuario');
-                window.location.href = '/home/register';
-                </script>";
-            }
-        }
+        $codigos = $_GET['codigos'];
+        // codigos viene en un array
+        $resultado = EmpresaModel::consultarConfiguraciones($codigos);
+        echo json_encode([
+            'status' => 'success',
+            'data' => $resultado
+        ]);
     }
 
 }

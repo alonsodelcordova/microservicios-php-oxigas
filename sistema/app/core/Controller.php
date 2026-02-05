@@ -38,4 +38,20 @@ class Controller
             require __DIR__ . '/../views/layouts/system_layout.php';
         }
     }
+
+    public function getDataJSON(){
+        // Leer JSON del body
+        $input = json_decode(file_get_contents('php://input'), true);
+
+        if (!$input) {
+            http_response_code(400);
+            echo json_encode([
+                'status' => 'error',
+                'data' => 'JSON inválido'
+            ]);
+            exit;
+        }else{
+            return $input;
+        }
+    }
 }

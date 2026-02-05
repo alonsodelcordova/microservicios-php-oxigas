@@ -54,4 +54,12 @@ class ProductoModel extends Model {
         return $resultado->execute();
     }
 
+
+    public static function consultarCategorias(){
+        $conexion = Database::connect();
+        $sql = "SELECT id, nombre, url_imagen, fecha_registro FROM categorias";
+        $resultado = $conexion->query($sql);
+        return $resultado->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }

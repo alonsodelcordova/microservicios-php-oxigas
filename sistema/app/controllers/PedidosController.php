@@ -21,15 +21,11 @@ class PedidosController extends Controller
         // Calcular el número total de páginas
         $total_paginas = PedidoModel::consultarTotalPaginas($registros_por_pagina);
 
-        $this -> view('pedidos/index', [
+        echo json_encode( [
             'resultado' => $resultado,
             'total_paginas' => $total_paginas,
-            'pagina_actual' => $pagina_actual
+            'pagina_actual' => $pagina_actual,
+            'status' => 'success'
         ]);
-    }
-
-    public function nuevo()
-    {
-        $this -> view('pedidos/nuevo');
     }
 }

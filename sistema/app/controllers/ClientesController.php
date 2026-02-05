@@ -23,37 +23,37 @@ class ClientesController extends Controller {
         // Calcular el número total de páginas
         $total_paginas = ClienteModel::consultarTotalPaginas($registros_por_pagina);
 
-        $this -> view('clientes/index', [
+        echo json_encode([
             'resultado' => $resultado,
             'total_paginas' => $total_paginas,
-            'pagina_actual' => $pagina_actual
+            'pagina_actual' => $pagina_actual,
+            'status' => 'success'
         ]);
     }
 
-    public function nuevo($mensaje="") {
-        $this -> view('clientes/nuevo',[
-            'mensaje' => $mensaje
-        ]);
-    }
 
     public function registrar(){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             // Obtener los datos del formulario
-            $nombre = $_POST['nombre'];
-            $apellido = $_POST['apellido'];
-            $email = $_POST['email'];
-            $telefono = $_POST['telefono'];
+            $input = $this->getDataJSON();
+            $nombre = $input['nombre'];
+            $apellido = $input['apellido'];
+            $email = $input['email'];
+            $telefono = $input['telefono'];
             
             
             // Llamar a la función para crear el cliente
             if(ClienteModel::crearCliente($nombre, $apellido, $email, $telefono)){
-                echo "<script>
-                alert('Cliente creado correctamente');
-                window.location.href = '/clientes';
-                </script>";
+                echo json_encode([
+                    'status' => 'success',
+                    'data' => 'Cliente creado correctamente'
+                ]);
             
             }else{
-                $mensaje = "Error al crear el cliente";
+                echo json_encode([
+                    'status' => 'error',
+                    'data' => 'Error al crear el cliente'
+                ]);
             }
         }
     }
@@ -64,23 +64,18 @@ class ClientesController extends Controller {
             $cliente = ClienteModel::consultarCliente($_GET['id']);
             if($cliente){
                 ClienteModel::eliminarCliente($_GET['id']);
-                echo "<script>
-                        alert('Cliente eliminado');
-                    </script>";
-            }else{
-                echo "<script>
-                        alert('Cliente no encontrado');
-                    </script>";
+                echo json_encode([
+                    'status' => 'success',
+                    'data' => 'Cliente eliminado correctamente'
+                ]);
+                exit;
             }
-        }else{
-            echo "<script>
-                    alert('ID de cliente no proporcionado');
-                </script>";
         }
-        echo "<script>
-                window.location.href = '/clientes';
-            </script>";
-        exit;
+        echo json_encode([
+            'status' => 'error',
+            'data' => 'Error al eliminar el cliente'
+        ]);
+        
     }
 
 }

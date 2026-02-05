@@ -20,19 +20,21 @@ class ProductosController extends Controller
         // Calcular el número total de páginas
         $total_paginas = ProductoModel::consultarTotalPaginas($registros_por_pagina);
 
-        $this -> view('productos/index', [
+        echo json_encode([
             'resultado' => $resultado,
             'total_paginas' => $total_paginas,
-            'pagina_actual' => $pagina_actual
+            'pagina_actual' => $pagina_actual,
+            'status' => 'success'
         ]);
     }
 
     public function nuevo($mensaje="") {
 
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            $nombre = $_POST['nombre'];
-            $categoria = $_POST['categoria'];
-            $precio = $_POST['precio'];
+            $input = $this->getDataJSON();
+            $nombre = $input['nombre'];
+            $categoria = $input['categoria'];
+            $precio = $input['precio'];
             $usuario_id = $_SESSION['id'];
 
             //FILE IMAGEN
@@ -42,10 +44,11 @@ class ProductosController extends Controller
             $extension = pathinfo($file_img['name'], PATHINFO_EXTENSION);
 
             if (!in_array($extension, ['jpg', 'jpeg', 'png', 'gif'])) {
-                echo "<script>
-                alert('Formato de imagen no permitido');
-                window.location.href = '/productos';
-                </script>";
+                echo json_encode([
+                    'status' => 'error',
+                    'data' => 'Error al subir la imagen'
+                ]);
+                exit;
             }
 
             $file_name = uniqid() . '.' . $extension;
@@ -64,16 +67,16 @@ class ProductosController extends Controller
             
             // Llamar a la función para crear el producto
             if(ProductoModel::crearProducto($nombre, $categoria, $precio, $url_imagen, $usuario_id)){
-                echo "<script>
-                alert('Producto creado correctamente');
-                window.location.href = '/productos';
-                </script>";
-            }else{
-                $mensaje = "Error al crear el producto";
+                echo json_encode([
+                    'status' => 'success',
+                    'data' => 'Producto creado correctamente'
+                ]);
+                exit;
             }
         }
-        $this -> view('productos/nuevo',[
-            'mensaje' => $mensaje
+        echo json_encode([
+            'status' => 'error',
+            'data' => 'Error al crear el producto'
         ]);
 
     }
@@ -82,37 +85,35 @@ class ProductosController extends Controller
         $id = null;
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
-        }else{
-            echo "<script>
-                alert('ID de producto no proporcionado');
-            </script>";
-            return;
-        }
-        $producto_db = ProductoModel::consultarProducto('id',$id);
-        if($producto_db){
-            $usuario_id = $producto_db['usuario_id'];
-            if($usuario_id == $_SESSION['id']){
-                ProductoModel::eliminarProducto($id);
-                //borrar imagen
-                $url_imagen = $producto_db['url_imagen'];
-                unlink($url_imagen);
-                echo "<script>
-                    alert('Producto eliminado');
-                    window.location.href = '/productos';
-                </script>";
-                return;
-            }else{
-                echo "<script>
-                    alert('No tienes permisos para eliminar este producto');
-                </script>";
+            $producto_db = ProductoModel::consultarProducto('id',$id);
+            if($producto_db){
+                $usuario_id = $producto_db['usuario_id'];
+                if($usuario_id == $_SESSION['id']){
+                    ProductoModel::eliminarProducto($id);
+                    //borrar imagen
+                    $url_imagen = $producto_db['url_imagen'];
+                    unlink($url_imagen);
+                    echo json_encode([
+                        'status' => 'success',
+                        'data' => 'Producto eliminado correctamente'
+                    ]);
+                    exit;
+                }
             }
-        }else{
-            echo "<script>
-                alert('Producto no encontrado');
-            </script>";
         }
-        echo "<script>
-            window.location.href = '/productos';
-        </script>";
+        echo json_encode([
+        'status' => 'error',
+        'data' => 'Error al eliminar el producto'
+        ]);
     }
+
+
+    public function categorias(){
+        $resultado = ProductoModel::consultarCategorias();
+        echo json_encode([
+            'status' => 'success',
+            'data' => $resultado
+        ]);
+    }
+
 }

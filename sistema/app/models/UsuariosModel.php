@@ -60,4 +60,27 @@ class UsuariosModel extends Model{
         return $resultado->execute();
     }
 
+
+    // generar token
+    public static function generarToken($id){
+        // crear un token hash con el id del usuario
+        $data = json_encode([
+            'id' => $id
+        ]);
+        $token = hash_hmac('sha256', $data, 'secreto');
+        return $token;
+    }
+
+    // validar token
+    public static function validarToken($token){
+        // decodificar el token
+        $data = json_decode(base64_decode($token), true);
+        if($data['id']){
+            return $data['id'];
+        }else{
+            return false;
+        }
+        
+    }
+
 }
